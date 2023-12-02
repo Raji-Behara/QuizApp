@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".50"
+        />
+
+
+    <Button
+        android:id="@+id/btn_true"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="@color/blue"
+        app:layout_constraintEnd_toStartOf="@id/btn_false"
+app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/tru"
+
+        app:layout_constraintTop_toBottomOf="@id/guideline1"
+       />
+
+    <Button
+        android:id="@+id/btn_false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+     android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/blue"
+      android:text="@string/fal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_true"
+
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+    <!--<androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:name="com.example.quizapp.FirstFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+       app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />-->
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline1"
+        app:layout_constraintVertical_bias="0.574" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

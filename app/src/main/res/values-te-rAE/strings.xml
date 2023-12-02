@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name="GetAverage">గెట్ యావరేజ్</string>
+    <string name="getAverage">గెట్ యావరేజ</string>
+    <string name="select_question">ప్రశ్న సంఖ్యను ఎంచుకోండి</string>
+    <string name="reset">సేవ్ చేసిన ఫలితాన్ని రీసెట్ చేయండి</string>
+
+
+    <string name="quiz">ప్రశ్న</string>
+    <string name="fal">తప్పుడు</string>
+    <string name="tru">నిజం</string>
+
+
+</resources>
