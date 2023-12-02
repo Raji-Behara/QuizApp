@@ -1,5 +1,6 @@
 package com.example.quizapp;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import java.io.Serializable;
@@ -12,20 +13,27 @@ public class QuestionBank  {
 
 
 
-    public ArrayList<Question> getQuestionList(int selectedQuestions) {
+    public ArrayList<Question> getQuestionList( int selectedQuestions,Context context) {
 
      questionList= new ArrayList<>();
+        Question question1=new Question(context.getResources().getString(R.string.q1),true,R.color.aqua);
+        Question question2=new Question(context.getResources().getString(R.string.q2),true,R.color.blue);
+        Question question3=new Question(context.getResources().getString(R.string.q3),true,R.color.yellow);
+        Question question4=new Question(context.getResources().getString(R.string.q4),true,R.color.blue);
+        Question question5=new Question(context.getResources().getString(R.string.q5),true,R.color.green);
+        Question question6=new Question(context.getResources().getString(R.string.q6),true,R.color.gray);
+        Question question7=new Question(context.getResources().getString(R.string.q7),true,R.color.teal);
+        Question question8=new Question(context.getResources().getString(R.string.q8),true,R.color.maroon);
+        Question question9=new Question(context.getResources().getString(R.string.q9),true,R.color.silver);
+        Question question10=new Question(context.getResources().getString(R.string.q10),true,R.color.purple);
 
-    Question question1=new Question("Java is considered a low-level programming language",true, R.color.aqua);
-    Question question2=new Question("Void methods must have at least one parameter",false,R.color.yellow);
-    Question question3=new Question("Java is a case-sensitive language",true,R.color.green);
-    Question question4=new Question("next is not a Java keyword",true,R.color.maroon);
-    Question question5=new Question("A class is an instance of its object",false,R.color.lime);
-    Question question6=new Question("Attributes are specified by the class's methods",false,R.color.purple_200);
-    Question question7=new Question("A printer is not one of the six logical units of a compute",true,R.color.teal_200);
-    Question question8=new Question("Microsoft Word is not an example of operating system software",true,R.color.silver);
-    Question question9=new Question("Syntax errors are caught by the compiler. Logic errors have effects at execution time",true,R.color.teal);
-    Question question10=new Question("A textbook index is not an algorithm",true,R.color.navy);
+        Question question11=new Question(context.getResources().getString(R.string.q11),false,R.color.olive);
+        Question question12=new Question(context.getResources().getString(R.string.q12),true,R.color.purple_700);
+        Question question13=new Question(context.getResources().getString(R.string.q13),true,R.color.DarkOrange);
+        Question question14=new Question(context.getResources().getString(R.string.q14),true,R.color.Gold);
+        Question question15=new Question(context.getResources().getString(R.string.q15),false,R.color.Tomato);
+
+
 
 
     questionList.add(question1);
@@ -34,14 +42,21 @@ public class QuestionBank  {
     questionList.add(question4);
     questionList.add(question5);
 
-    if(selectedQuestions==10){
+    if(selectedQuestions>=10){
         questionList.add(question6);
         questionList.add(question7);
         questionList.add(question8);
         questionList.add(question9);
         questionList.add(question10);
     }
-
+if(selectedQuestions>=15)
+{
+    questionList.add(question11);
+    questionList.add(question12);
+    questionList.add(question13);
+    questionList.add(question14);
+    questionList.add(question15);
+}
         return questionList;
     }
 }

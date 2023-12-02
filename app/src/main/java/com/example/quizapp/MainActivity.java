@@ -67,8 +67,9 @@ private ArrayList<Question> quizQuestionList;
        //   progress.setOnClickListener(this);
 
        fm =  ((MyApp)getApplication()).fileManager;
+
        questionBank = new QuestionBank();
-       quizQuestionList = questionBank.getQuestionList(selectedQuizQuestions);
+       quizQuestionList = questionBank.getQuestionList(selectedQuizQuestions,MainActivity.this);
 
 
 
@@ -80,16 +81,20 @@ private ArrayList<Question> quizQuestionList;
                nextIndex=((MyApp) getApplication()).getQuestionIndex();
                correctAnswers=((MyApp)getApplication()).getCorrectAnswers();
 
+               selectedQuizQuestions=((MyApp)getApplication()).getSelectedQuizQuestions();
+
 
 
            }
            else {
 
-               quizQuestionList= questionBank.getQuestionList(selectedQuizQuestions);
+               quizQuestionList= questionBank.getQuestionList(selectedQuizQuestions,MainActivity.this);
                Collections.shuffle(quizQuestionList);
                ((MyApp)getApplication()).setAppQuestionList(quizQuestionList);
                ((MyApp)getApplication()).setQuestionIndex(nextIndex);
                ((MyApp)getApplication()).setCorrectAnswers(correctAnswers);
+               ((MyApp)getApplication()).setSelectedQuizQuestions(selectedQuizQuestions);
+
            }
 
        /*if(quizQuestionList==null||quizQuestionList.isEmpty())
@@ -346,7 +351,7 @@ private ArrayList<Question> quizQuestionList;
     private void showRadioButtonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(" Select Number of Questions")
-                .setSingleChoiceItems(new CharSequence[]{"5", "10"}, -1, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(new CharSequence[]{"5", "10","15"}, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Handle the selected option
@@ -365,6 +370,13 @@ private ArrayList<Question> quizQuestionList;
                                 intent1.putExtra("selectedQuizQuestions",10);
                                 startActivity(intent1);
                                 // Option 2 is selected
+                                break;
+                            case 2:
+                                Toast.makeText(MainActivity.this,"15 Questions Quiz Selected",Toast.LENGTH_SHORT).show();  // Option 1 is selected
+                                // selectedQuizQuestions=5;
+                                Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                                intent2.putExtra("selectedQuizQuestions",15);
+                                startActivity(intent2);
                                 break;
                         }
                         dialog.dismiss();

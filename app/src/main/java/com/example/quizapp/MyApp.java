@@ -13,6 +13,19 @@ public class MyApp extends Application {
 
    private int correctAnswers;
 
+    int selectedQuizQuestions;
+
+    public void setSelectedQuizQuestions(int selectedQuizQuestions) {
+        this.selectedQuizQuestions = selectedQuizQuestions;
+    }
+
+    public int getSelectedQuizQuestions() {
+
+        return selectedQuizQuestions;
+    }
+
+
+
     public int getQuestionIndex() {
         return questionIndex;
     }

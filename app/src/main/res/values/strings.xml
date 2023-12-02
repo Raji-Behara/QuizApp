@@ -32,6 +32,23 @@
     <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="next" translatable="false">Next</string>
     <string name="previous" translatable="false">Previous</string>
+    <string name="q1">Java is considered a low-level programming language</string>
+    <string name="q2">Void methods must have at least one parameter</string>
+    <string name="q3">Java is a case-sensitive language</string>
+    <string name="q4">Next is not a Java keyword</string>
+    <string name="q5">A class is an instance of its object</string>
+    <string name="q6">Attributes are specified by the class\'s methods</string>
+    <string name="q7">A printer is not one of the six logical units of a compute</string>
+    <string name="q8">Microsoft Word is not an example of operating system software</string>
+    <string name="q9">Syntax errors are caught by the compiler</string>
+    <string name="q10">A textbook index is not an algorithm</string>
+
+    <string name="q11">Java supports multiple inheritance</string>
+    <string name="q12">Java supports multithreading</string>
+    <string name="q13">Java lang package is default</string>
+    <string name="q14">extension of java code file is .java</string>
+    <string name="q15">Java is Interpreted language</string>
+
     <!--<string name="ok">YES</string>
     <string name="one">ITem1</string>-->
 
