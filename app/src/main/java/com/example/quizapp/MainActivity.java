@@ -33,203 +33,201 @@ public class MainActivity extends AppCompatActivity {
     Button btnFalse;
     TextView addQuestion;
     ProgressBar progress;
-    int currentProgress=1;
-    private String resultMessage="Your score is #correctAnswer# out of #selectedQuestions#";
-    private String averageMessage="Your correct answers are   ##correctAnswer## out of #totalQuestions# " +
+    int currentProgress = 1;
+    private String resultMessage = "Your score is #correctAnswer# out of #selectedQuestions#";
+    private String averageMessage = "Your correct answers are   ##correctAnswer## out of #totalQuestions# " +
             " i.e  ##/## in ##noOfAttempts## attempts";
-    int nextIndex =0;
-   int correctAnswers;
+    int nextIndex = 0;
+    int correctAnswers;
     int incorrectAnswers;
 
     int selectedQuizQuestions;
-private QuestionBank questionBank;
+    private QuestionBank questionBank;
 
-private ArrayList<Question> quizQuestionList;
-int configChange=0;
+    private ArrayList<Question> quizQuestionList;
+    int configChange = 0;
 
 
-   @SuppressLint("MissingInflatedId")
-   @Override
+    @SuppressLint("MissingInflatedId")
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
-       addQuestion = findViewById(R.id.question_text);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        addQuestion = findViewById(R.id.question_text);
 
-       btnTrue = findViewById(R.id.btn_true);
-       btnFalse = findViewById(R.id.btn_false);
+        btnTrue = findViewById(R.id.btn_true);
+        btnFalse = findViewById(R.id.btn_false);
 
-       progress = findViewById(R.id.progressbar);
+        progress = findViewById(R.id.progressbar);
         progress.setProgress(currentProgress);
 
-       selectedQuizQuestions=getIntent().getIntExtra("selectedQuizQuestions",10);
-       fm =  ((MyApp)getApplication()).fileManager;
-       questionBank = new QuestionBank();
-       quizQuestionList = questionBank.getQuestionList(selectedQuizQuestions,MainActivity.this);
+        selectedQuizQuestions = getIntent().getIntExtra("selectedQuizQuestions", 10);
+        fm = ((MyApp) getApplication()).fileManager;
+        questionBank = new QuestionBank();
+        quizQuestionList = questionBank.getQuestionList(selectedQuizQuestions, MainActivity.this);
 
-       //getting question from framelayout
+        //getting question from framelayout
 
-       Fragment f = getSupportFragmentManager().findFragmentById(R.id.framelayout);
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.framelayout);
 
-           if (f != null) {
-               getSupportFragmentManager().beginTransaction().remove(f).commit();
-               quizQuestionList=((MyApp)getApplication()).getAppQuestionList();
-               nextIndex=((MyApp) getApplication()).getQuestionIndex();
-               correctAnswers=((MyApp)getApplication()).getCorrectAnswers();
+        if (f != null) {
+            getSupportFragmentManager().beginTransaction().remove(f).commit();
+            quizQuestionList = ((MyApp) getApplication()).getAppQuestionList();
+            nextIndex = ((MyApp) getApplication()).getQuestionIndex();
+            correctAnswers = ((MyApp) getApplication()).getCorrectAnswers();
 
-               selectedQuizQuestions=((MyApp)getApplication()).getSelectedQuizQuestions();
+            selectedQuizQuestions = ((MyApp) getApplication()).getSelectedQuizQuestions();
 
-           }
-           else {
+        } else {
 
-               quizQuestionList= questionBank.getQuestionList(selectedQuizQuestions,MainActivity.this);
-               Collections.shuffle(quizQuestionList);
-               ((MyApp)getApplication()).setAppQuestionList(quizQuestionList);
-               ((MyApp)getApplication()).setQuestionIndex(nextIndex);
-               ((MyApp)getApplication()).setCorrectAnswers(correctAnswers);
-               ((MyApp)getApplication()).setSelectedQuizQuestions(selectedQuizQuestions);
+            quizQuestionList = questionBank.getQuestionList(selectedQuizQuestions, MainActivity.this);
+            Collections.shuffle(quizQuestionList);
+            ((MyApp) getApplication()).setAppQuestionList(quizQuestionList);
+            ((MyApp) getApplication()).setQuestionIndex(nextIndex);
+            ((MyApp) getApplication()).setCorrectAnswers(correctAnswers);
+            ((MyApp) getApplication()).setSelectedQuizQuestions(selectedQuizQuestions);
 
-           }
+        }
 
-       FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.framelayout);
-       if (firstFragment == null) {
+        FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.framelayout);
+        if (firstFragment == null) {
 
-           progress.setProgress(1);
-           progress.setMax(selectedQuizQuestions);
-           firstFragment = FirstFragment.newInstance(quizQuestionList.get(0));
-           getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
-           nextIndex++;
+            progress.setProgress(1);
+            progress.setMax(selectedQuizQuestions);
+            firstFragment = FirstFragment.newInstance(quizQuestionList.get(0));
+            getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
+            nextIndex++;
 
-           progress.setProgress(currentProgress);
+            progress.setProgress(currentProgress);
 
-       } else {
-           getSupportFragmentManager().beginTransaction().remove(firstFragment).commit();
-           String msg = addQuestion.getText().toString();
-           firstFragment = FirstFragment.newInstance(quizQuestionList.get(nextIndex));
-           getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
-           msg = addQuestion.getText().toString();
-           nextIndex++;
+        } else {
+            getSupportFragmentManager().beginTransaction().remove(firstFragment).commit();
+            String msg = addQuestion.getText().toString();
+            firstFragment = FirstFragment.newInstance(quizQuestionList.get(nextIndex));
+            getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
+            msg = addQuestion.getText().toString();
+            nextIndex++;
 
-       }
+        }
 
-       if(nextIndex==quizQuestionList.size()) {
-           askThenSave();
-       }
+        if (nextIndex == quizQuestionList.size()) {
+            askThenSave();
+        }
 
 //True button clicked
 
-       btnTrue.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
+        btnTrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 //progress bar
-               currentProgress = currentProgress + 1;
-               progress.setProgress(currentProgress);
-               progress.setMax(selectedQuizQuestions);
+                currentProgress = currentProgress + 1;
+                progress.setProgress(currentProgress);
+                progress.setMax(selectedQuizQuestions);
 
-               if (quizQuestionList.get(nextIndex).isAnswer() == true) {
-                   Toast.makeText(MainActivity.this, "Corrct", Toast.LENGTH_SHORT).show();
-                   Log.d("true clicked", "progress");
-                   correctAnswers++;
-               } else {
+                if (quizQuestionList.get(nextIndex).isAnswer() == true) {
+                    Toast.makeText(MainActivity.this, "Corrct", Toast.LENGTH_SHORT).show();
+                    Log.d("true clicked", "progress");
+                    correctAnswers++;
+                } else {
 
-                   // Toast.makeText(MainActivity.this,"InCorrct",Toast.LENGTH_SHORT).show();
-                   Toast.makeText(MainActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
-                   incorrectAnswers++;
+                    Toast.makeText(MainActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
+                    incorrectAnswers++;
 
-               }
+                }
 
-               Fragment f = getSupportFragmentManager().findFragmentById(R.id.framelayout);
-               if (f != null) {
-                   getSupportFragmentManager().beginTransaction().remove(f).commit();
+                Fragment f = getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                if (f != null) {
+                    getSupportFragmentManager().beginTransaction().remove(f).commit();
 
-               }
+                }
 
-               Collections.shuffle(quizQuestionList);
-               FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.framelayout);
-               firstFragment = FirstFragment.newInstance(quizQuestionList.get(nextIndex));
-               getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
+                Collections.shuffle(quizQuestionList);
+                FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                firstFragment = FirstFragment.newInstance(quizQuestionList.get(nextIndex));
+                getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
 
-               nextIndex++;
-             if(nextIndex==quizQuestionList.size())
+                nextIndex++;
+                if (nextIndex == quizQuestionList.size()) {
+                    //calculateScore(quizQuestionList,correctAnswers);
+                    askThenSave();
+                }
 
-              {
-                  //calculateScore(quizQuestionList,correctAnswers);
-                   askThenSave();
-              }
-
-           }
-       });
+            }
+        });
 //False button
-       btnFalse.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
+        btnFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                currentProgress = currentProgress + 1;
+                progress.setProgress(currentProgress);
+                progress.setMax(selectedQuizQuestions);
 
-               currentProgress = currentProgress + 1;
-               progress.setProgress(currentProgress);
-               progress.setMax(selectedQuizQuestions);
+                if (quizQuestionList.get(nextIndex).isAnswer() == false) {
+                    Toast.makeText(MainActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+                    correctAnswers++;
 
-               if (quizQuestionList.get(nextIndex).isAnswer() == false) {
-                   Toast.makeText(MainActivity.this, "Correct", Toast.LENGTH_SHORT).show();
-                   correctAnswers++;
+                } else {
 
-               } else {
+                    Toast.makeText(MainActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
+                    incorrectAnswers++;
 
-                   Toast.makeText(MainActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
-                   incorrectAnswers++;
+                }
 
-               }
+                Fragment f = getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                if (f != null) {
+                    getSupportFragmentManager().beginTransaction().remove(f).commit();
+                }
+                FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                firstFragment = FirstFragment.newInstance(quizQuestionList.get(nextIndex));
+                getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
+                nextIndex++;
 
-               Fragment f = getSupportFragmentManager().findFragmentById(R.id.framelayout);
-               if (f != null) {
-                   getSupportFragmentManager().beginTransaction().remove(f).commit();
-               }
-               FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.framelayout);
-               firstFragment = FirstFragment.newInstance(quizQuestionList.get(nextIndex));
-               getSupportFragmentManager().beginTransaction().add(R.id.framelayout, firstFragment).commit();
-               nextIndex++;
+//here calling save function
+                if (nextIndex == quizQuestionList.size()) {
+                    askThenSave();
+                }
 
-               if(nextIndex==quizQuestionList.size())
-               {
-                   askThenSave();
-               }
+            }
+        });
+    }
 
-           }
-       });
-   }
-
-//save results in filesystem
-       void askThenSave(){
-           AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-           resultMessage=resultMessage.replace("#correctAnswer#",correctAnswers+"").replace("#selectedQuestions#",quizQuestionList.size()+"");
-           builder.setMessage(resultMessage);
-           builder.setPositiveButton("save", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialogInterface, int i) {
+    //save results in filesystem
+    void askThenSave() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        resultMessage = resultMessage.replace("#correctAnswer#", correctAnswers + "").replace("#selectedQuestions#", quizQuestionList.size() + "");
+        builder.setMessage(resultMessage);
+        builder.setPositiveButton("save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
                 //calling write function of filemanager
-                 fm.writeResultFile(MainActivity.this,correctAnswers,quizQuestionList.size());
-               }
-           });
-           builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialogInterface, int i) {
-                  // getAllToDoFromDB();
-               }
-           });
-           builder.create().show();
+                fm.writeResultFile(MainActivity.this, correctAnswers, quizQuestionList.size());
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
 
-       }
-       //Read the file from file system and calculate Average
+            }
+        });
+        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
-    void getAverage(){
+            }
+        });
+        builder.create().show();
+
+    }
+    //Read the file from file system and calculate Average
+
+    void getAverage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         QuizResult quizResult = fm.readAllResults(MainActivity.this);
-        averageMessage=averageMessage.replace("##correctAnswer##",quizResult.getCorrectAnswers()+"")
-                .replace("#totalQuestions# ",quizResult.getSelectedQuestions()+"")
-                .replace("##/##",quizResult.getCorrectAnswers()+"/"+quizResult.getSelectedQuestions())
-                .replace("##noOfAttempts##",quizResult.getAttempts()+"");
+        averageMessage = averageMessage.replace("##correctAnswer##", quizResult.getCorrectAnswers() + "")
+                .replace("#totalQuestions# ", quizResult.getSelectedQuestions() + "")
+                .replace("##/##", quizResult.getCorrectAnswers() + "/" + quizResult.getSelectedQuestions())
+                .replace("##noOfAttempts##", quizResult.getAttempts() + "");
         builder.setMessage(averageMessage);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
@@ -249,17 +247,17 @@ int configChange=0;
 
 //delete file from file system
 
-    void askThenDelete(){
+    void askThenDelete() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        resultMessage=resultMessage.replace("#correctAnswer#",correctAnswers+"").replace("#totalQuestions#",quizQuestionList.size()+"");
-        builder.setTitle("Are you sure you want to  Reset the file");
+        resultMessage = resultMessage.replace("#correctAnswer#", correctAnswers + "").replace("#totalQuestions#", quizQuestionList.size() + "");
+        builder.setTitle("Are you sure you want to  delete the file");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 fm.deleteResult(MainActivity.this);
-
 
             }
         });
@@ -275,36 +273,36 @@ int configChange=0;
     }
 
 
-//Bonus Question
- //Select questions using Radiobuttoins in dialogue alert
+    //Bonus Question
+    //Select questions using Radiobuttoins in dialogue alert
     private void showRadioButtonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(" Select Number of Questions")
-                .setSingleChoiceItems(new CharSequence[]{"5", "10","15"}, -1, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(new CharSequence[]{"5", "10", "15"}, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Handle the selected option
                         switch (which) {
                             case 0:
-                              Toast.makeText(MainActivity.this,"5 Questions Quiz Selected",Toast.LENGTH_SHORT).show();  // Option 1 is selected
-                               // selectedQuizQuestions=5;
+                                Toast.makeText(MainActivity.this, "5 Questions Quiz Selected", Toast.LENGTH_SHORT).show();  // Option 1 is selected
+                                // selectedQuizQuestions=5;
                                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                                intent.putExtra("selectedQuizQuestions",5);
+                                intent.putExtra("selectedQuizQuestions", 5);
                                 startActivity(intent);
                                 break;
                             case 1:
-                                Toast.makeText(MainActivity.this,"10Questions Quiz Selected",Toast.LENGTH_SHORT).show();
-                               // selectedQuizQuestions=10;
+                                Toast.makeText(MainActivity.this, "10Questions Quiz Selected", Toast.LENGTH_SHORT).show();
+                                // selectedQuizQuestions=10;
                                 Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
-                                intent1.putExtra("selectedQuizQuestions",10);
+                                intent1.putExtra("selectedQuizQuestions", 10);
                                 startActivity(intent1);
 
                                 break;
                             case 2:
-                                Toast.makeText(MainActivity.this,"15 Questions Quiz Selected",Toast.LENGTH_SHORT).show();  // Option 1 is selected
+                                Toast.makeText(MainActivity.this, "15 Questions Quiz Selected", Toast.LENGTH_SHORT).show();  // Option 1 is selected
                                 // selectedQuizQuestions=5;
                                 Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
-                                intent2.putExtra("selectedQuizQuestions",15);
+                                intent2.putExtra("selectedQuizQuestions", 15);
                                 startActivity(intent2);
                                 break;
                         }
@@ -315,16 +313,16 @@ int configChange=0;
                 .show();
     }
 
-//Menu Option
+    //Menu Option
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-       MenuInflater inflater= getMenuInflater();
-       inflater.inflate(R.menu.menu_example,menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_example, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-//Menu items
+    //Menu items
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -332,7 +330,7 @@ int configChange=0;
             case R.id.average:
                 getAverage();
                 return true;
-        //select number of questions
+            //select number of questions
 
             case R.id.select:
 

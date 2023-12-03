@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public class MyApp extends Application {
     FileManager fileManager = new FileManager();
 
-   private int questionIndex;
+    private int questionIndex;
 
-   private ArrayList<Question> appQuestionList;
+    private ArrayList<Question> appQuestionList;
 
-   private int correctAnswers;
+    private int correctAnswers;
 
     int selectedQuizQuestions;
 
@@ -24,8 +24,6 @@ public class MyApp extends Application {
         return selectedQuizQuestions;
     }
 
-
-
     public int getQuestionIndex() {
         return questionIndex;
     }
@@ -35,9 +33,8 @@ public class MyApp extends Application {
     }
 
     public ArrayList<Question> getAppQuestionList() {
-        if(appQuestionList==null)
-        {
-            appQuestionList=new ArrayList<>();
+        if (appQuestionList == null) {
+            appQuestionList = new ArrayList<>();
         }
         return appQuestionList;
     }
