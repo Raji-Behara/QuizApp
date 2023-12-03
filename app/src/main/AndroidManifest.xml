@@ -13,11 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizApp"
         tools:targetApi="31" >
-        <!--<activity
-            android:name=".AlertActivity"
-            android:exported="false"
-            android:label="@string/title_activity_select_question_alert"
-            android:theme="@style/Theme.QuizApp" />-->
+
         <activity
             android:name=".MainActivity"
             android:exported="true" >
