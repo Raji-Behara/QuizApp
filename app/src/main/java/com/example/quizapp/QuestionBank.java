@@ -15,6 +15,7 @@ public class QuestionBank  {
 
     public ArrayList<Question> getQuestionList( int selectedQuestions,Context context) {
 
+//questions from
      questionList= new ArrayList<>();
         Question question1=new Question(context.getResources().getString(R.string.q1),true,R.color.aqua);
         Question question2=new Question(context.getResources().getString(R.string.q2),true,R.color.blue);

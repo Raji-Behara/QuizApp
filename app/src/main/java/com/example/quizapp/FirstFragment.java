@@ -12,19 +12,14 @@ import androidx.fragment.app.Fragment;
 
 public class FirstFragment extends Fragment {
 
-
     static   String questionText ;
     static int color;
-    //private String question1;
-   // Question question= new Question(question1)
-
     public static FirstFragment newInstance(Question qtn) {
         FirstFragment ff = new FirstFragment();
         questionText = qtn.getText();
         color    =qtn.getColor();
         return ff;
     }
-
 
     @Nullable
     @Override
@@ -36,13 +31,7 @@ public class FirstFragment extends Fragment {
        // text.setTextColor(color);
        // text.setBackgroundColor(color);
         text.setBackgroundResource(color);
-
-
-
         return v;
 
     }
-
-
-
 }

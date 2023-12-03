@@ -16,7 +16,9 @@ public class FileManager {
 
     String fileName = "QuizScore.txt";
 
-    void writeToDoToFile(Context context, int quizResult,int selectedQuestions) {
+    //Save file
+
+    void writeResultFile(Context context, int quizResult,int selectedQuestions) {
         try {
             FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_APPEND);
             fos.write((quizResult+"_"+selectedQuestions+"$").getBytes());
@@ -30,7 +32,9 @@ public class FileManager {
 
     }
 
-    void deleteAllToDos(Context context){
+    //Reset file
+
+    void deleteResult(Context context){
         try {
             FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             int quizResult;
@@ -42,10 +46,8 @@ public class FileManager {
         }
     }
 
-
-
-
     //Read file
+
     public QuizResult readAllResults(Context context){
         QuizResult quizResult = new QuizResult();
         try {
